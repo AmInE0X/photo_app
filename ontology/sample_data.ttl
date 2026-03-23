@@ -1,0 +1,33 @@
+@prefix : <http://example.org/library#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Authors ###
+:Author_George_Orwell rdf:type :Author ;
+                      :name "George Orwell" .
+
+:Author_JK_Rowling rdf:type :Author ;
+                   :name "J.K. Rowling" .
+ 
+### Categories ###
+:Category_Dystopian rdf:type :Category ;
+                    :name "Dystopian" .
+
+:Category_Fantasy rdf:type :Category ;
+                  :name "Fantasy" .
+
+### Books ###
+:Book_1984 rdf:type :Book ;
+           :title "1984" ;
+           :writtenBy :Author_George_Orwell ;
+           :belongsTo :Category_Dystopian .
+
+:Book_Animal_Farm rdf:type :Book ;
+                  :title "Animal Farm" ;
+                  :writtenBy :Author_George_Orwell ;
+                  :belongsTo :Category_Dystopian .
+
+:Book_Sorcerers_Stone rdf:type :Book ;
+                      :title "Harry Potter and the Sorcerer's Stone" ;
+                      :writtenBy :Author_JK_Rowling ;
+                      :belongsTo :Category_Fantasy .
