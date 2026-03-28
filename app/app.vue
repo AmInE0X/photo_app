@@ -25,6 +25,7 @@ async function logout() {
         
         <div v-if="user" class="flex items-center gap-4">
           <UButton to="/add" variant="ghost" icon="i-lucide-plus" color="primary">Add Book</UButton>
+          <UButton to="/mybooks" variant="ghost" icon="i-lucide-library-big" color="neutral">My Books</UButton>
           <span class="text-sm text-gray-500">{{ user.email }}</span>
           <UButton @click="logout" color="error" variant="ghost" icon="i-lucide-log-out">Logout</UButton>
         </div>

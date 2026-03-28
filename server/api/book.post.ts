@@ -30,6 +30,8 @@ export default defineEventHandler(async (event) => {
   const slugCat = category.trim().replace(/[^a-zA-Z0-9]/g, '_')
   const catUri = `http://example.org/library#Category_${slugCat}`
 
+  const userEmail = user.email || 'unknown'
+
   let sparqlInsert = `
     PREFIX : <http://example.org/library#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -38,6 +40,7 @@ export default defineEventHandler(async (event) => {
     INSERT DATA {
       <${bookUri}> a :Book ;
                    :title "${title.replace(/"/g, '\\"')}" ;
+                   :addedBy "${userEmail.replace(/"/g, '\\"')}" ;
                    :writtenBy <${authorUri}> ;
                    :belongsTo <${catUri}> .
       

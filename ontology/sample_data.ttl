@@ -8,7 +8,7 @@
 
 :Author_JK_Rowling rdf:type :Author ;
                    :name "J.K. Rowling" .
- 
+  
 ### Categories ###
 :Category_Dystopian rdf:type :Category ;
                     :name "Dystopian" .

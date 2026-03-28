@@ -61,19 +61,22 @@ async function onSubmit() {
         <p class="text-sm text-gray-500 mt-1">Insert a new book, author, and category into the Knowledge Graph.</p>
       </template>
 
-      <form @submit.prevent="onSubmit" class="space-y-6">
+      <form @submit.prevent="onSubmit" class="space-y-6 flex flex-col mx-auto item-center">
         <UFormGroup label="Book Title" required>
+          <h4>Book Title</h4>
           <UInput v-model="title" placeholder="e.g. 1984" icon="i-lucide-type" />
         </UFormGroup>
 
         <UFormGroup label="Author" required>
+          <h4>Author</h4>
           <UInput v-model="author" placeholder="e.g. George Orwell" icon="i-lucide-user" />
-          <p class="text-xs text-gray-500 mt-1">Author will be created or linked as a node in the graph.</p>
+          <p class="text-xs text-gray-500">Author will be created or linked as a node in the graph.</p>
         </UFormGroup>
 
         <UFormGroup label="Category" required>
+          <h4>Category</h4>
           <UInput v-model="category" placeholder="e.g. Dystopian" icon="i-lucide-tag" />
-          <p class="text-xs text-gray-500 mt-1">Category will be linked as a node in the graph.</p>
+          <p class="text-xs text-gray-500">Category will be linked as a node in the graph.</p>
         </UFormGroup>
 
         <div class="flex justify-end pt-4">

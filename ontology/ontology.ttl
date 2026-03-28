@@ -25,6 +25,10 @@
        rdfs:domain :Book ;
        rdfs:range xsd:string .
 
+:addedBy rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Book ;
+         rdfs:range xsd:string .
+
 :name rdf:type owl:DatatypeProperty ;
       rdfs:domain [ rdf:type owl:Class ;
                     owl:unionOf ( :Author :Category ) ] ;
