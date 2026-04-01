@@ -121,5 +121,4 @@ watch(() => props.highlightId, (id) => {
   <div ref="container" class="w-full h-[600px] border border-gray-200 rounded-lg shadow-inner bg-gray-50"></div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
