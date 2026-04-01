@@ -12,8 +12,12 @@ const columns = [
   { id: 'title', accessorKey: 'title', header: 'Book Title' },
   { id: 'author', accessorKey: 'author', header: 'Author' },
   { id: 'category', accessorKey: 'category', header: 'Category' },
-  { id: 'uri', accessorKey: 'id', header: 'URI' }
+  { id: 'uri', accessorKey: 'id', header: 'URI' },
+  { id: 'actions', header: 'Actions' }
 ]
+
+const isDeleting = ref<string | null>(null)
+const toast = useToast()
 
 onMounted(async () => {
   try {
@@ -26,6 +30,24 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+async function deleteBook(id: string) {
+  if (!confirm('Are you sure you want to completely remove this book from the Knowledge Graph?')) return
+
+  isDeleting.value = id
+  try {
+    await $fetch('/api/book', {
+      method: 'DELETE',
+      query: { id }
+    })
+    books.value = books.value.filter(b => b.id !== id)
+    toast.add({ title: 'Success', description: 'Book triple removed permanently.', color: 'success' })
+  } catch (err: any) {
+    toast.add({ title: 'Error', description: err.data?.statusMessage || 'Failed to delete book.', color: 'error' })
+  } finally {
+    isDeleting.value = null
+  }
+}
 </script>
 
 <template>
@@ -81,6 +103,19 @@ onMounted(async () => {
         <!-- URI cell — shortened -->
         <template #uri-cell="{ row }">
           <span class="text-xs text-gray-400 font-mono">{{ row.original.id.split('#')[1] }}</span>
+        </template>
+        <!-- Actions cell -->
+        <template #actions-cell="{ row }">
+          <UButton
+            color="error"
+            variant="soft"
+            icon="i-lucide-trash-2"
+            size="xs"
+            @click="deleteBook(row.original.id)"
+            :loading="isDeleting === row.original.id"
+          >
+            Delete
+          </UButton>
         </template>
       </UTable>
     </UCard>

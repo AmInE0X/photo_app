@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     SELECT ?book ?title WHERE {
       ?book a :Book ;
             :title ?title .
-      FILTER(CONTAINS(LCASE(?title), LCASE("${safeText}")))
+      FILTER(regex(str(?title), "${safeText}", "i"))
     }
   `
 
