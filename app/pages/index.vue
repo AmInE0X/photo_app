@@ -11,6 +11,7 @@ const searchResults = ref<any[]>([])
 const searching = ref(false)
 
 const isMocked = ref(false)
+const stats = ref<any[]>([])
 
 async function fetchGraph() {
   try {
@@ -26,8 +27,18 @@ async function fetchGraph() {
   }
 }
 
+async function fetchStats() {
+  try {
+    const data: any = await $fetch('/api/stats')
+    stats.value = data.results || []
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 onMounted(() => {
   fetchGraph()
+  fetchStats()
 })
 
 function handleNodeSelect(id: string) {
@@ -114,14 +125,27 @@ async function handleSearch() {
         </ClientOnly>
       </div>
       
-      <div class="lg:col-span-1 h-[600px] overflow-y-auto">
+      <div class="lg:col-span-1 h-[600px] flex flex-col gap-4 overflow-y-auto">
         <div v-if="searchResults.length > 0 && searchQuery" class="mb-4">
           <h3 class="font-bold text-sm text-gray-600 uppercase mb-2">Search Results</h3>
           <UButton v-for="res in searchResults" :key="res.id" block variant="soft" color="primary" class="mb-2 text-left justify-start" @click="handleNodeSelect(res.id)">
             {{ res.title }}
           </UButton>
         </div>
-        <NodeDetails :nodeId="selectedNodeId" />
+        <NodeDetails :nodeId="selectedNodeId" @refresh="fetchGraph" />
+
+        <UCard v-if="stats.length > 0">
+          <template #header>
+            <h3 class="font-bold text-sm text-gray-600 uppercase">Category Statistics</h3>
+            <p class="text-xs text-gray-500">From /api/stats (GROUP BY)</p>
+          </template>
+          <div class="space-y-2">
+            <div v-for="stat in stats" :key="stat.category" class="flex justify-between items-center text-sm">
+              <span class="text-gray-700">{{ stat.category }}</span>
+              <UBadge color="gray">{{ stat.count }} books</UBadge>
+            </div>
+          </div>
+        </UCard>
       </div>
     </div>
   </UContainer>

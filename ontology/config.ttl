@@ -1,0 +1,29 @@
+@prefix :      <http://base/#> .
+@prefix tdb:   <http://jena.hpl.hp.com/2008/tdb#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ja:    <http://jena.hpl.hp.com/2005/11/Assembler#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fuseki: <http://jena.apache.org/fuseki#> .
+
+# Service Definition
+:service1 a fuseki:Service ;
+    fuseki:name "myGraph" ;
+    fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "query" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:update ; fuseki:name "update" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; fuseki:name "get" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:gsp-rw ; fuseki:name "data" ] ;
+    fuseki:dataset :datasetWithReasoner .
+
+# The dataset with the OWL reasoner bound to it
+:datasetWithReasoner a ja:RDFDataset ;
+    ja:defaultGraph :modelWithReasoner .
+
+# The Inference Model
+:modelWithReasoner a ja:InfModel ;
+    ja:reasoner [
+        ja:reasonerURL <http://jena.hpl.hp.com/2003/OWLFBRuleReasoner>
+    ] ;
+    ja:baseModel :baseModel .
+
+# The base model (Memory model for dev)
+:baseModel a ja:MemoryModel .

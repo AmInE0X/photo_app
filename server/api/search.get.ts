@@ -14,10 +14,25 @@ export default defineEventHandler(async (event) => {
   
   const query = `
     PREFIX : <http://example.org/library#>
-    SELECT ?book ?title WHERE {
-      ?book a :Book ;
-            :title ?title .
-      FILTER(regex(str(?title), "${safeText}", "i"))
+    SELECT DISTINCT ?book ?title WHERE {
+      {
+        ?book :title ?title .
+        FILTER(regex(str(?title), "${safeText}", "i"))
+      }
+      UNION
+      {
+        ?book :title ?title .
+        ?book :writtenBy ?author .
+        ?author :name ?authorName .
+        FILTER(regex(str(?authorName), "${safeText}", "i"))
+      }
+      UNION
+      {
+        ?book :title ?title .
+        ?book :belongsTo ?category .
+        ?category :name ?categoryName .
+        FILTER(regex(str(?categoryName), "${safeText}", "i"))
+      }
     }
   `
 

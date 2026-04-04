@@ -7,18 +7,35 @@
 <http://example.org/library> rdf:type owl:Ontology .
 
 ### Classes ###
-:Book rdf:type owl:Class .
+:Book rdf:type owl:Class ;
+      rdfs:subClassOf [ rdf:type owl:Restriction ;
+                        owl:onProperty :title ;
+                        owl:cardinality "1"^^xsd:nonNegativeInteger ] .
+
+:PublishedBook rdf:type owl:Class ;
+               rdfs:subClassOf :Book .
+
 :Author rdf:type owl:Class .
 :Category rdf:type owl:Class .
+:Publisher rdf:type owl:Class .
 
 ### Object Properties ###
 :writtenBy rdf:type owl:ObjectProperty ;
            rdfs:domain :Book ;
            rdfs:range :Author .
 
+:isAuthorOf rdf:type owl:ObjectProperty ;
+            owl:inverseOf :writtenBy ;
+            rdfs:domain :Author ;
+            rdfs:range :Book .
+
 :belongsTo rdf:type owl:ObjectProperty ;
            rdfs:domain :Book ;
            rdfs:range :Category .
+
+:publishedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :PublishedBook ;
+             rdfs:range :Publisher .
 
 ### Data Properties ###
 :title rdf:type owl:DatatypeProperty ;
@@ -31,5 +48,5 @@
 
 :name rdf:type owl:DatatypeProperty ;
       rdfs:domain [ rdf:type owl:Class ;
-                    owl:unionOf ( :Author :Category ) ] ;
+                    owl:unionOf ( :Author :Category :Publisher ) ] ;
       rdfs:range xsd:string .

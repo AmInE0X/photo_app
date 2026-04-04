@@ -1,33 +1,119 @@
 @prefix : <http://example.org/library#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 ### Authors ###
 :Author_George_Orwell rdf:type :Author ;
-                      :name "George Orwell" .
+                      :name "George Orwell" ;
+                      owl:sameAs <http://dbpedia.org/resource/George_Orwell> .
 
 :Author_JK_Rowling rdf:type :Author ;
-                   :name "J.K. Rowling" .
-  
+                   :name "J.K. Rowling" ;
+                   owl:sameAs <http://dbpedia.org/resource/J._K._Rowling> .
+
+:Author_Stephen_King rdf:type :Author ;
+                     :name "Stephen King" ;
+                     owl:sameAs <http://dbpedia.org/resource/Stephen_King> .
+
+:Author_Agatha_Christie rdf:type :Author ;
+                        :name "Agatha Christie" ;
+                        owl:sameAs <http://dbpedia.org/resource/Agatha_Christie> .
+
+:Author_Isaac_Asimov rdf:type :Author ;
+                     :name "Isaac Asimov" ;
+                     owl:sameAs <http://dbpedia.org/resource/Isaac_Asimov> .
+
+:Author_Frank_Herbert rdf:type :Author ;
+                      :name "Frank Herbert" ;
+                      owl:sameAs <http://dbpedia.org/resource/Frank_Herbert> .
+
+:Author_Tolkien rdf:type :Author ;
+                :name "J.R.R. Tolkien" ;
+                owl:sameAs <http://dbpedia.org/resource/J._R._R._Tolkien> .
+
 ### Categories ###
 :Category_Dystopian rdf:type :Category ;
-                    :name "Dystopian" .
+                    :name "Dystopian" ;
+                    owl:sameAs <http://dbpedia.org/resource/Dystopia> .
 
 :Category_Fantasy rdf:type :Category ;
-                  :name "Fantasy" .
+                  :name "Fantasy" ;
+                  owl:sameAs <http://dbpedia.org/resource/Fantasy> .
 
-### Books ###
-:Book_1984 rdf:type :Book ;
+:Category_Horror rdf:type :Category ;
+                 :name "Horror" ;
+                 owl:sameAs <http://dbpedia.org/resource/Horror_fiction> .
+
+:Category_SciFi rdf:type :Category ;
+                :name "Science Fiction" ;
+                owl:sameAs <http://dbpedia.org/resource/Science_fiction> .
+
+:Category_Mystery rdf:type :Category ;
+                  :name "Mystery" ;
+                  owl:sameAs <http://dbpedia.org/resource/Mystery_fiction> .
+
+### Publishers ###
+:Publisher_Penguin rdf:type :Publisher ;
+                   :name "Penguin Books" .
+
+:Publisher_Bloomsbury rdf:type :Publisher ;
+                      :name "Bloomsbury Publishing" .
+
+:Publisher_HarperCollins rdf:type :Publisher ;
+                         :name "HarperCollins" .
+
+:Publisher_Bantam rdf:type :Publisher ;
+                  :name "Bantam Books" .
+
+:Publisher_Chilton rdf:type :Publisher ;
+                   :name "Chilton Books" .
+
+### Books & PublishedBooks ###
+:Book_1984 rdf:type :PublishedBook ;
            :title "1984" ;
            :writtenBy :Author_George_Orwell ;
-           :belongsTo :Category_Dystopian .
+           :belongsTo :Category_Dystopian ;
+           :publishedBy :Publisher_Penguin .
 
-:Book_Animal_Farm rdf:type :Book ;
+:Book_Animal_Farm rdf:type :PublishedBook ;
                   :title "Animal Farm" ;
                   :writtenBy :Author_George_Orwell ;
-                  :belongsTo :Category_Dystopian .
+                  :belongsTo :Category_Dystopian ;
+                  :publishedBy :Publisher_Penguin .
 
-:Book_Sorcerers_Stone rdf:type :Book ;
+:Book_Sorcerers_Stone rdf:type :PublishedBook ;
                       :title "Harry Potter and the Sorcerer's Stone" ;
                       :writtenBy :Author_JK_Rowling ;
-                      :belongsTo :Category_Fantasy .
+                      :belongsTo :Category_Fantasy ;
+                      :publishedBy :Publisher_Bloomsbury .
+
+:Book_The_Shining rdf:type :PublishedBook ;
+                  :title "The Shining" ;
+                  :writtenBy :Author_Stephen_King ;
+                  :belongsTo :Category_Horror ;
+                  :publishedBy :Publisher_HarperCollins .
+
+:Book_Foundation rdf:type :PublishedBook ;
+                 :title "Foundation" ;
+                 :writtenBy :Author_Isaac_Asimov ;
+                 :belongsTo :Category_SciFi ;
+                 :publishedBy :Publisher_Bantam .
+
+:Book_Dune rdf:type :PublishedBook ;
+           :title "Dune" ;
+           :writtenBy :Author_Frank_Herbert ;
+           :belongsTo :Category_SciFi ;
+           :publishedBy :Publisher_Chilton .
+
+:Book_And_Then_There_Were_None rdf:type :PublishedBook ;
+                               :title "And Then There Were None" ;
+                               :writtenBy :Author_Agatha_Christie ;
+                               :belongsTo :Category_Mystery ;
+                               :publishedBy :Publisher_HarperCollins .
+
+:Book_Hobbit rdf:type :PublishedBook ;
+             :title "The Hobbit" ;
+             :writtenBy :Author_Tolkien ;
+             :belongsTo :Category_Fantasy ;
+             :publishedBy :Publisher_HarperCollins .
