@@ -4,11 +4,12 @@ import { ref } from 'vue'
 const title = ref('')
 const author = ref('')
 const category = ref('')
+const publisher = ref('')
 const isUploading = ref(false)
 const toast = useToast()
 
 async function onSubmit() {
-  if (!title.value.trim() || !author.value.trim() || !category.value.trim()) {
+  if (!title.value.trim() || !author.value.trim() || !category.value.trim() || !publisher.value.trim()) {
     toast.add({ title: 'Error', description: 'Please fill out all fields.', color: 'error' })
     return
   }
@@ -21,7 +22,8 @@ async function onSubmit() {
       body: {
         title: title.value.trim(),
         author: author.value.trim(),
-        category: category.value.trim()
+        category: category.value.trim(),
+        publisher: publisher.value.trim()
       }
     })
     
@@ -35,6 +37,7 @@ async function onSubmit() {
     title.value = ''
     author.value = ''
     category.value = ''
+    publisher.value = ''
 
     // Redirect to home/graph view after short delay
     setTimeout(() => {
@@ -77,6 +80,12 @@ async function onSubmit() {
           <h4>Category</h4>
           <UInput v-model="category" placeholder="e.g. Dystopian" icon="i-lucide-tag" />
           <p class="text-xs text-gray-500">Category will be linked as a node in the graph.</p>
+        </UFormGroup>
+
+        <UFormGroup label="Publisher" required>
+          <h4>Publisher</h4>
+          <UInput v-model="publisher" placeholder="e.g. Penguin Books" icon="i-lucide-building" />
+          <p class="text-xs text-gray-500">Publisher will be linked to the book node.</p>
         </UFormGroup>
 
         <div class="flex justify-end pt-4">

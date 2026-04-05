@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'No body provided' })
   }
 
-  const { title, author, category } = body
+  const { title, author, category, publisher } = body
 
-  if (!title || !author || !category) {
+  if (!title || !author || !category || !publisher) {
     throw createError({ statusCode: 400, statusMessage: 'Missing required fields' })
   }
 
@@ -30,6 +30,9 @@ export default defineEventHandler(async (event) => {
   const slugCat = category.trim().replace(/[^a-zA-Z0-9]/g, '_')
   const catUri = `http://example.org/library#Category_${slugCat}`
 
+  const slugPub = publisher.trim().replace(/[^a-zA-Z0-9]/g, '_')
+  const pubUri = `http://example.org/library#Publisher_${slugPub}`
+
   const userEmail = user.email || 'unknown'
 
   let sparqlInsert = `
@@ -42,13 +45,17 @@ export default defineEventHandler(async (event) => {
                    :title "${title.replace(/"/g, '\\"')}" ;
                    :addedBy "${userEmail.replace(/"/g, '\\"')}" ;
                    :writtenBy <${authorUri}> ;
-                   :belongsTo <${catUri}> .
+                   :belongsTo <${catUri}> ;
+                   :publishedBy <${pubUri}> .
       
       <${authorUri}> a :Author ;
                      :name "${author.replace(/"/g, '\\"')}" .
                      
       <${catUri}> a :Category ;
                   :name "${category.replace(/"/g, '\\"')}" .
+
+      <${pubUri}> a :Publisher ;
+                  :name "${publisher.replace(/"/g, '\\"')}" .
     }
   `
 
@@ -69,7 +76,8 @@ export default defineEventHandler(async (event) => {
     data: {
       bookUri,
       authorUri,
-      catUri
+      catUri,
+      pubUri
     }
   }
 })

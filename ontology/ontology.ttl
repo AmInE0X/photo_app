@@ -19,6 +19,10 @@
 :Category rdf:type owl:Class .
 :Publisher rdf:type owl:Class .
 
+### Disjoint Classes Axiom ###
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( :Book :Author :Category :Publisher ) .
+
 ### Object Properties ###
 :writtenBy rdf:type owl:ObjectProperty ;
            rdfs:domain :Book ;
@@ -38,7 +42,8 @@
              rdfs:range :Publisher .
 
 ### Data Properties ###
-:title rdf:type owl:DatatypeProperty ;
+:title rdf:type owl:DatatypeProperty ,
+                owl:FunctionalProperty ;
        rdfs:domain :Book ;
        rdfs:range xsd:string .
 
@@ -50,3 +55,69 @@
       rdfs:domain [ rdf:type owl:Class ;
                     owl:unionOf ( :Author :Category :Publisher ) ] ;
       rdfs:range xsd:string .
+
+### Individuals ###
+
+# Publishers
+:Penguin_Books rdf:type :Publisher ;
+               :name "Penguin Books" .
+
+# Authors
+:George_Orwell rdf:type :Author ;
+               :name "George Orwell" .
+
+:Isaac_Asimov rdf:type :Author ;
+              :name "Isaac Asimov" .
+
+# Categories
+:SciFi rdf:type :Category ;
+       :name "Science Fiction" .
+
+:Dystopian rdf:type :Category ;
+           :name "Dystopian" .
+
+# Books
+:1984 rdf:type :PublishedBook ;
+      :title "1984" ;
+      :addedBy "admin" ;
+      :writtenBy :George_Orwell ;
+      :belongsTo :Dystopian ;
+      :publishedBy :Penguin_Books .
+
+:Animal_Farm rdf:type :PublishedBook ;
+             :title "Animal Farm" ;
+             :addedBy "admin" ;
+             :writtenBy :George_Orwell ;
+             :belongsTo :Dystopian ;
+             :publishedBy :Penguin_Books .
+
+:Foundation rdf:type :PublishedBook ;
+            :title "Foundation" ;
+            :addedBy "admin" ;
+            :writtenBy :Isaac_Asimov ;
+            :belongsTo :SciFi ;
+            :publishedBy :Penguin_Books .
+
+### SPARQL Queries ###
+#
+# 1. Get all books by a specific author (e.g., George Orwell):
+# PREFIX : <http://example.org/library#>
+# SELECT ?book ?title WHERE {
+#   ?book :writtenBy :George_Orwell ;
+#         :title ?title .
+# }
+#
+# 2. Get all books in a specific category (e.g., Dystopian):
+# PREFIX : <http://example.org/library#>
+# SELECT ?book ?title WHERE {
+#   ?book :belongsTo :Dystopian ;
+#         :title ?title .
+# }
+#
+# 3. Get all published books by a specific publisher (e.g., Penguin Books):
+# PREFIX : <http://example.org/library#>
+# SELECT ?book ?title WHERE {
+#   ?book a :PublishedBook ;
+#         :publishedBy :Penguin_Books ;
+#         :title ?title .
+# }
